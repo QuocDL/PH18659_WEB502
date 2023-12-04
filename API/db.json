@@ -1,0 +1,46 @@
+{
+  "products": [
+    {
+      "name": "tai nghe apple",
+      "price": 200,
+      "id": 4
+    },
+    {
+      "name": "tai nghe apple",
+      "price": 200,
+      "id": 5
+    },
+    {
+      "name": "tai nghe samsung",
+      "price": 200,
+      "id": 6
+    },
+    {
+      "name": "tai nghe samsung",
+      "price": 200,
+      "id": 7
+    },
+    {
+      "name": "san pham 8 den tu tuong lai 2",
+      "price": 400,
+      "id": 8
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
