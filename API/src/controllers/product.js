@@ -22,10 +22,7 @@ export const getDetailProduct = async (req, res) => {
         data: [],
       });
     }
-    return res.status(200).json({
-      message: "Successfully!",
-      data,
-    });
+    return res.status(200).json(data);
   } catch (error) {
     return res.status(500).json({
       name: error.name || "Error",
@@ -153,10 +150,7 @@ export const updateProduct = async (req, res) => {
         { new: true }
       );
     }
-    return res.status(200).json({
-      message: "Successfully!",
-      data,
-    });
+    return res.status(200).json(data);
   } catch (error) {
     return res.status(500).json({
       name: error.name || "Error",

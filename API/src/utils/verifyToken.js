@@ -2,10 +2,10 @@ import User from "../models/User";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
-
-export const verifyToken = async (token) => {
+const { SECRET_CODE } = process.env;
+export const verifyToken = async (token, res) => {
   try {
-    const decoded = jwt.verify(token, process.env.SECRET_CODE);
+    const decoded = jwt.verify(token, SECRET_CODE);
     const user = await User.findById(decoded.id);
     if (!user) {
       return res.status(404).json({

@@ -3,12 +3,12 @@ import React, {useEffect, useState} from 'react'
 import { Category, Product } from "./AdminProductsList";
 import axios from 'axios'
 
-export type ProductCreateType = Omit<Product, "_id" | "categoryID"> & {
+export type ProductForm = Omit<Product, "_id" | "categoryID"> & {
   categoryID: string;
 }
 const AdminCreateProduct = ()=>{
     const navigate = useNavigate()
- const [productCreate, setInfoProducts] = useState<ProductCreateType>({
+ const [productCreate, setInfoProducts] = useState<ProductForm>({
     title: "",
     image: "",
     categoryID : '',
