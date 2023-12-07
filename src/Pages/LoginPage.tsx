@@ -1,12 +1,19 @@
 import { useState, useEffect } from "react"
-import {useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
+import {toast, ToastContainer} from 'react-toastify'
 import axios from "axios"
 
 export type AccountType = {
     email: string,
     password: string
 }
-
+export type ErrorType = {
+  response:{
+    data:{
+      message: string
+    }
+  }
+}
 const Login = ()=>{
     const navigate = useNavigate()
     const [account, setAccount] = useState<AccountType>({
@@ -25,12 +32,19 @@ const Login = ()=>{
     const onSubmitEvent = async(event: React.SyntheticEvent)=>{
         event.preventDefault()
         try {
-            const {data} = await axios.post('http://localhost:8000/api/auth/signin', account)
-            console.log('success');
+            const {data} = await axios.post('/api/auth/signin', account)
             localStorage.setItem('token', data.token)
+                     toast.success('Login Complete Welcome: ' + account.email,{
+          position: toast.POSITION.BOTTOM_CENTER
+        })
             navigate('/admin/products')
         } catch (error) {
-            console.log(error);
+          const err = error as ErrorType
+            console.log(err.response.data.message);
+            const message = err.response.data.message
+            toast.error(`${message}`,{
+          position: toast.POSITION.BOTTOM_CENTER
+        })
         }
     }
 
@@ -124,17 +138,18 @@ const Login = ()=>{
           </button>
           <p className="text-sm font-light text-gray-500 dark:text-gray-400">
             Don’t have an account yet?{" "}
-            <a
-              href="#"
+            <Link
+              to={'/signup'}
               className="font-medium text-primary-600 hover:underline dark:text-primary-500"
             >
               Sign up
-            </a>
+            </Link>
           </p>
         </form>
       </div>
     </div>
   </div>
+  <ToastContainer/>
 </section>
 </>
     )

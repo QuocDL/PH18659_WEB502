@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom"
 import {useState, useEffect} from 'react'
 import axios from 'axios'
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import { ErrorType } from "./LoginPage";
 
 export type Product = {
     _id: string,
@@ -20,7 +21,7 @@ export type Category = {
 };
 
 const ProductList = ()=>{
-    const navigate = useNavigate()
+  const navigate = useNavigate()
    const [productList, setProductList] = useState<Product[]>([]);
 
     const fetchProduct = async()=>{
@@ -33,19 +34,26 @@ const ProductList = ()=>{
     }
     useEffect(()=>{
         const token = localStorage.getItem('token')
-        if(!token) return navigate('/')
+        if(!token){
+          return navigate('/')
+        }
         fetchProduct()
     },[])
     const handleRemove =async(id: string)=>{
         try {
             if(window.confirm('Remove Product?')){
-                await axios.delete(`http://localhost:8000/api/products/${id}`)
+                await axios.delete(`/api/products/${id}`)
                 fetchProduct()
-                   toast.success("Delete Successfull - " + id)
+                   toast.success("Delete Successfull - " + id,{
+          position: toast.POSITION.BOTTOM_CENTER
+        })
             }
         } catch (error) {
+          const err = error as ErrorType
             console.log(error);
-            toast.error('Delete Failed')
+            toast.error('Delete Failed -  ' + err.response.data.message,{
+          position: toast.POSITION.BOTTOM_CENTER
+        })
         }
     }
 
@@ -118,6 +126,7 @@ const ProductList = ()=>{
           </tbody>
         </table>
       </div>
+      <ToastContainer/>
     </div>
     )
 }

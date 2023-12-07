@@ -1,4 +1,6 @@
 import dotenv from "dotenv";
+import { verifyToken } from "../utils/verifyToken";
+import User from "../models/User";
 dotenv.config();
 
 export const checkPermission = async (req, res, next) => {
@@ -12,7 +14,7 @@ export const checkPermission = async (req, res, next) => {
     const user = verifyToken(token);
 
     // Kiểm tra xem user có quyền hạn này hay không?
-    if (user.role !== "admin") {
+    if (user.role === "admin") {
       return res.status(403).json({
         message: "Bạn ko phải là người có quyền này!",
       });

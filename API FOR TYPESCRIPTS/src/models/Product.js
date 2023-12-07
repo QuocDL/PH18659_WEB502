@@ -6,19 +6,15 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    image: String,
     price: {
       type: Number,
       required: true,
     },
-    image: String,
-    description: String,
+    desccription: String,
     categoryID: {
-      default: "656e3aa3ae10915ef8fe665f",
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
-    },
-    category: {
-      type: String,
     },
   },
   {

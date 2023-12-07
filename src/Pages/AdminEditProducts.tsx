@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { ProductForm } from "./Createproduct";
 import { Category } from "./AdminProductsList";
+import { ErrorType } from "./LoginPage";
 
 
 const AdminEditProduct = () => {
@@ -24,7 +25,7 @@ const AdminEditProduct = () => {
   const fetchProductAndCategoryList = async (id: string) => {
     try {
       const [{ data: categoriesRes }, { data: productRes }] = await Promise.all(
-        [axios.get("http://localhost:8000/api/categories"), axios.get(`http://localhost:8000/api/products/${id}`)]
+        [axios.get("/api/categories"), axios.get(`/api/products/${id}`)]
       );
       setCategoryList(categoriesRes);
       const { title, image, description, price, categoryID } = productRes;
@@ -55,12 +56,15 @@ const AdminEditProduct = () => {
     event.preventDefault();
     if (!productId) return;
     try {
-      const { data } = await axios.put(`http://localhost:8000/api/products/${productId}`, productEdit);
+      const { data } = await axios.put(`/api/products/${productId}`, productEdit);
       toast.success("Update Product Successfull!", data.title);
       navigate("/admin/products");
     } catch (error) {
       console.log(error);
-      toast.error("Update Product Failed!");
+      const err = error as ErrorType
+      toast.error("Update Product Failed! - " + err.response.data.message, {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
     }
   };
 
@@ -133,10 +137,10 @@ const AdminEditProduct = () => {
               id="category"
               value={productEdit.categoryID}
               onChange={handleChangeForm}
-              name={"category"}
+              name={"categoryID"}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
             >
-              <option value={""}>Select category</option>
+              <option value={"657081d49da378542c697049"}>Select category</option>
               {categoryList.map((category, index) => (
                 <option key={index} value={category._id}>
                   {category.name}
@@ -169,6 +173,7 @@ const AdminEditProduct = () => {
           Update product
         </button>
       </form>
+      <ToastContainer/>
     </div>
   );
 };

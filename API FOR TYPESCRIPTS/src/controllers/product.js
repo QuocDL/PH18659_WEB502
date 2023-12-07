@@ -75,7 +75,7 @@ export const createProduct = async (req, res) => {
     }
     if (!data.categoryID) {
       const updateCategory = await category.findByIdAndUpdate(
-        "656b1bdc0d50ee8e7c6e0468",
+        "657081d49da378542c697049",
         {
           $push: {
             products: data._id,
@@ -84,7 +84,7 @@ export const createProduct = async (req, res) => {
         },
         { new: true }
       );
-
+      console.log(updateCategory);
       // "656b1bdc0d50ee8e7c6e0468": là id của danh mục mặc đinh (other)
     }
     const updateCategory = await category.findByIdAndUpdate(
